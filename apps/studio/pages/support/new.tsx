@@ -6,8 +6,8 @@ import SVG from 'react-inlinesvg'
 import Success from 'components/interfaces/Support/Success'
 import SupportForm from 'components/interfaces/Support/SupportForm'
 import { usePlatformStatusQuery } from 'data/platform/platform-status-query'
-import { withAuth } from 'hooks'
 import { useProjectsQuery } from 'data/projects/projects-query'
+import { withAuth } from 'hooks'
 import { BASE_PATH } from 'lib/constants'
 import { Button, IconLoader, IconTool } from 'ui'
 
@@ -25,7 +25,7 @@ const SupportPage = () => {
         <div className="space-y-12 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-2">
             <div className="flex items-center space-x-3">
-              <SVG src={`${BASE_PATH}/img/supabase-logo.svg`} className="h-4 w-4" />
+              <SVG src={`${BASE_PATH}/img/logo_flint.png`} className="h-4 w-4" />
               <h1 className="m-0 text-lg">Supabase support</h1>
             </div>
             <div className="flex items-center space-x-3">

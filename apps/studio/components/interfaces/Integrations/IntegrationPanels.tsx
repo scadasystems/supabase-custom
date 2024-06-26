@@ -11,7 +11,7 @@ import { useProjectsQuery } from 'data/projects/projects-query'
 import { BASE_PATH } from 'lib/constants'
 import { getIntegrationConfigurationUrl } from 'lib/integration-utils'
 import Link from 'next/link'
-import { Badge, Button, cn, IconArrowRight, IconExternalLink, IconGitHub } from 'ui'
+import { Badge, Button, IconArrowRight, IconExternalLink, IconGitHub, cn } from 'ui'
 
 const ICON_STROKE_WIDTH = 2
 const ICON_SIZE = 14
@@ -28,7 +28,6 @@ const HandleIcon = ({ type, className }: { type: HandleIconType; className?: str
   switch (type) {
     case 'GitHub':
       return <IconGitHub strokeWidth={ICON_STROKE_WIDTH} size={ICON_SIZE} />
-      break
     // case 'Netlify':
     //   return <IconSquare strokeWidth={ICON_STROKE_WIDTH} size={ICON_SIZE} />
     //   break
@@ -44,14 +43,11 @@ const HandleIcon = ({ type, className }: { type: HandleIconType; className?: str
         </svg>
       )
 
-      break
     case 'Supabase':
-      return <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="Supabase" className="w-3.5"></img>
-      break
+      return <img src={`${BASE_PATH}/img/logo_flint.png`} alt="Supabase" className="w-3.5"></img>
 
     default:
       return <></>
-      break
   }
 }
 
@@ -342,5 +338,6 @@ export {
   IntegrationConnection,
   IntegrationConnectionHeader,
   IntegrationConnectionOption,
-  IntegrationInstallation,
+  IntegrationInstallation
 }
+

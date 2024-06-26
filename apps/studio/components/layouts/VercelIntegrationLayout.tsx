@@ -19,7 +19,7 @@ const VercelIntegrationLayout = ({ children }: PropsWithChildren<{}>) => {
                   <span className="sr-only">Supabase</span>
                   <img
                     className="h-6 w-auto sm:h-6"
-                    src={`${BASE_PATH}/img/supabase-logo.svg`}
+                    src={`${BASE_PATH}/img/logo_flint.png`}
                     alt=""
                   />
                 </div>

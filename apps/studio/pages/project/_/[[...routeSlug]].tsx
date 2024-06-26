@@ -12,7 +12,7 @@ const Header = () => {
       <div className="flex items-center space-x-2">
         <Link href="/projects">
           <img
-            src={`${BASE_PATH}/img/supabase-logo.svg`}
+            src={`${BASE_PATH}/img/logo_flint.png`}
             alt="Supabase"
             className="border-default rounded border p-1 hover:border-white"
             style={{ height: 24 }}

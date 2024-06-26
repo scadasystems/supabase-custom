@@ -116,7 +116,7 @@ const NavigationBar = () => {
             >
               <img
                 alt="Supabase"
-                src={`${router.basePath}/img/supabase-logo.svg`}
+                src={`${router.basePath}/img/logo_flint.png`}
                 className="absolute h-[40px] w-6 cursor-pointer rounded"
               />
             </Link>

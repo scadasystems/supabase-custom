@@ -33,7 +33,7 @@ const AppHeader = () => {
           className="block mr-3"
         >
           <img
-            src={`${router.basePath}/img/supabase-logo.svg`}
+            src={`${router.basePath}/img/logo_flint.png`}
             alt="Supabase"
             className="mx-auto h-[40px] w-6 cursor-pointer rounded"
           />

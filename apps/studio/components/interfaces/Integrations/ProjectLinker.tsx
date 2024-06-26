@@ -192,7 +192,7 @@ const ProjectLinker = ({
           <div className="flex justify-center gap-0 w-full relative">
             <Panel>
               <div className="bg-white shadow border rounded p-1 w-12 h-12 flex justify-center items-center">
-                <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="Supabase" className="w-6" />
+                <img src={`${BASE_PATH}/img/logo_flint.png`} alt="Supabase" className="w-6" />
               </div>
 
               <Popover_Shadcn_
@@ -210,7 +210,7 @@ const ProjectLinker = ({
                     icon={
                       <div className="bg-white shadow border rounded p-1 w-6 h-6 flex justify-center items-center">
                         <img
-                          src={`${BASE_PATH}/img/supabase-logo.svg`}
+                          src={`${BASE_PATH}/img/logo_flint.png`}
                           alt="Supabase"
                           className="w-4"
                         />
@@ -253,7 +253,7 @@ const ProjectLinker = ({
                             >
                               <div className="bg-white shadow border rounded p-1 w-6 h-6 flex justify-center items-center">
                                 <img
-                                  src={`${BASE_PATH}/img/supabase-logo.svg`}
+                                  src={`${BASE_PATH}/img/logo_flint.png`}
                                   alt="Supabase"
                                   className="w-4"
                                 />
