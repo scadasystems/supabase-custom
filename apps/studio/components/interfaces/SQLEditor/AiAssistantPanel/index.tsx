@@ -93,12 +93,24 @@ export const AiAssistantPanel = ({
           messages.length === 0 ? 'flex flex-col justify-between' : ''
         )}
       >
-        <Message
+        {/* <Message
           key="zero"
           role="assistant"
           content={`Hi${
             name ? ' ' + name : ''
           }, how can I help you? I'm powered by AI, so surprises and mistakes are possible.
+        Make sure to verify any generated code or suggestions, and share feedback so that we can
+        learn and improve.`}
+          action={
+            <Button type="default" onClick={onClose}>
+              Close Assistant
+            </Button>
+          }
+        > */}
+        <Message
+          key="zero"
+          role="assistant"
+          content={`Hi, I'm FLiNT Assistant. how can I help you? I'm powered by LulzM's AI, so surprises and mistakes are possible.
         Make sure to verify any generated code or suggestions, and share feedback so that we can
         learn and improve.`}
           action={
@@ -176,9 +188,8 @@ export const AiAssistantPanel = ({
                       autoComplete="off"
                       disabled={loading}
                       autoFocus
-                      className={`bg-surface-300 dark:bg-black rounded-full pl-10 ${
-                        loading ? 'pr-10' : ''
-                      }`}
+                      className={`bg-surface-300 dark:bg-black rounded-full pl-10 ${loading ? 'pr-10' : ''
+                        }`}
                       placeholder="Ask a question about your SQL query"
                     />
                     {loading && <Loader2 className="absolute top-2 right-3 animate-spin" />}
