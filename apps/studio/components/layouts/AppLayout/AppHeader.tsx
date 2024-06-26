@@ -35,7 +35,7 @@ const AppHeader = () => {
           <img
             src={`${router.basePath}/img/logo_flint.png`}
             alt="Supabase"
-            className="mx-auto h-[40px] w-6 cursor-pointer rounded"
+            className="mx-auto h-[28px] w-6 cursor-pointer rounded"
           />
         </Link>
         <OrganizationDropdown isNewNav />
