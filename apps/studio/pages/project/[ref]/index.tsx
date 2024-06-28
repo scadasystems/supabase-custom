@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 import { useParams } from 'common'
-import { ClientLibrary, ExampleProject } from 'components/interfaces/Home'
 import Connect from 'components/interfaces/Home/Connect/Connect'
-import { CLIENT_LIBRARIES, EXAMPLE_PROJECTS } from 'components/interfaces/Home/Home.constants'
 import ProjectUsageSection from 'components/interfaces/Home/ProjectUsageSection'
 import ServiceStatus from 'components/interfaces/Home/ServiceStatus'
 import { ProjectLayoutWithAuth } from 'components/layouts/ProjectLayout/ProjectLayout'
@@ -32,7 +30,7 @@ const Home: NextPageWithLayout = () => {
   const projectName =
     project?.ref !== 'default' && project?.name !== undefined
       ? project?.name
-      : 'Welcome to your project'
+      : 'Welcome to FLiNT'
 
   return (
     <div className="w-full mx-auto my-16 space-y-16 max-w-7xl">
@@ -54,7 +52,7 @@ const Home: NextPageWithLayout = () => {
         {IS_PLATFORM && project?.status !== PROJECT_STATUS.INACTIVE && <ProjectUsageSection />}
       </div>
 
-      {project?.status !== PROJECT_STATUS.INACTIVE && (
+      {/* {project?.status !== PROJECT_STATUS.INACTIVE && (
         <>
           <div className="space-y-8">
             <div className="mx-6">
@@ -77,7 +75,7 @@ const Home: NextPageWithLayout = () => {
             </div>
           </div>
         </>
-      )}
+      )} */}
     </div>
   )
 }
