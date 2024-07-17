@@ -13,6 +13,7 @@ import { components } from '~/features/docs/mdx.shared'
 import type { WithRequired } from '~/features/helpers.types'
 import { type GuideFrontmatter } from '~/lib/docs'
 import { MDXProviderGuides } from './GuidesMdx.client'
+import Breadcrumbs from '~/components/Breadcrumbs'
 
 const codeHikeOptions: CodeHikeConfig = {
   theme: codeHikeTheme,
@@ -120,6 +121,7 @@ const GuideTemplate = ({ meta, content, children, editLink, mdxOptions }: GuideT
           hideToc ? 'col-span-12' : 'col-span-12 md:col-span-9'
         )}
       >
+        <Breadcrumbs className="mb-2" />
         <article
           // Used to get headings for the table of contents
           id="sb-docs-guide-main-article"
@@ -159,13 +161,15 @@ const GuideTemplate = ({ meta, content, children, editLink, mdxOptions }: GuideT
           className={cn(
             'hidden md:block',
             'col-span-3 self-start',
-            'sticky top-[calc(var(--header-height)+2rem)]',
+            'sticky',
             /**
-             * [TODO: Charis]
-             *
-             * Figure out what these magic numbers represent
+             * --header-height: height of nav
+             * 1px: height of nav border
+             * 2rem: content padding
              */
-            'max-h-[calc(100vh-60px-5rem)]'
+            'top-[calc(var(--header-height)+1px+2rem)]',
+            // 3rem accounts for 2rem of top padding + 1rem of extra breathing room
+            'max-h-[calc(100vh-var(--header-height)-3rem)]'
           )}
         />
       )}

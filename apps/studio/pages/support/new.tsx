@@ -7,7 +7,7 @@ import Success from 'components/interfaces/Support/Success'
 import SupportForm from 'components/interfaces/Support/SupportForm'
 import { usePlatformStatusQuery } from 'data/platform/platform-status-query'
 import { useProjectsQuery } from 'data/projects/projects-query'
-import { withAuth } from 'hooks'
+import { withAuth } from 'hooks/misc/withAuth'
 import { BASE_PATH } from 'lib/constants'
 import { Button, IconLoader, IconTool } from 'ui'
 

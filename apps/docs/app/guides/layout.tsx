@@ -12,7 +12,7 @@ const GuidesLayout = ({ children }: PropsWithChildren) => {
   return <Layout menuId={menuId}>{children}</Layout>
 }
 
-const getMenuId = (pathname: string | null) => {
+export const getMenuId = (pathname: string | null) => {
   pathname = (pathname ??= '').replace(/^\/guides\//, '')
 
   switch (true) {
@@ -43,7 +43,7 @@ const getMenuId = (pathname: string | null) => {
     case pathname.startsWith('storage'):
       return MenuId.Storage
     default:
-      return MenuId.Home
+      return MenuId.GettingStarted
   }
 }
 
