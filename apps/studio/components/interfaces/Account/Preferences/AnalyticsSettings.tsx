@@ -1,13 +1,13 @@
-import { Alert_Shadcn_, AlertDescription_Shadcn_, AlertTitle_Shadcn_, Badge, Toggle } from 'ui'
 import { ButtonTooltip } from 'components/ui/ButtonTooltip'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
+import { Alert_Shadcn_, AlertDescription_Shadcn_, AlertTitle_Shadcn_, Badge, Toggle } from 'ui'
 
 import { useConsentState } from 'common'
+import { LOCAL_STORAGE_KEYS } from 'common/constants/local-storage'
 import Panel from 'components/ui/Panel'
 import { useSendResetMutation } from 'data/telemetry/send-reset-mutation'
 import { useLocalStorageQuery } from 'hooks/misc/useLocalStorage'
-import { LOCAL_STORAGE_KEYS } from 'common/constants/local-storage'
 
 export const PrivacyUpdateBanner = () => {
   const [privacyUpdateAcknowledged, setPrivacyUpdateAcknowledged] = useLocalStorageQuery(
@@ -27,12 +27,12 @@ export const PrivacyUpdateBanner = () => {
       </AlertTitle_Shadcn_>
       <AlertDescription_Shadcn_>
         We’ve updated our{' '}
-        <a href="https://supabase.com/privacy" target="_blank" className="text hover:text-brand">
+        <a href="https://dusta.dev/privacy" target="_blank" className="text hover:text-brand">
           Privacy Policy
         </a>{' '}
         to clarify how we use AI features, marketing tools, cookies, and your data. By continuing to
-        use Supabase after May 28, you agree to the new terms. Questions? Contact{' '}
-        <a href="mailto:privacy@supabase.com" target="_blank" className="text hover:text-brand">
+        use FLiNT after May 28, you agree to the new terms. Questions? Contact{' '}
+        <a href="mailto:helpdesk@dicamo.com" target="_blank" className="text hover:text-brand">
           our team
         </a>
         .

@@ -34,7 +34,7 @@ export function parseReferencePath(slug: Array<string>) {
     let maybeVersion: string | null
     let maybeCrawlers: string | null
     let path: string[]
-    ;[sdkId, maybeVersion, maybeCrawlers, ...path] = slug
+      ;[sdkId, maybeVersion, maybeCrawlers, ...path] = slug
     if (!/v\d+/.test(maybeVersion)) {
       maybeVersion = null
       path = [maybeCrawlers, ...path]
@@ -155,14 +155,14 @@ export async function generateReferenceMetadata(
     })
 
     return {
-      title: `${displayName} API Reference | Supabase Docs`,
-      description: `API reference for the ${displayName} Supabase SDK`,
+      title: `${displayName} API Reference | FLiNT Docs`,
+      description: `API reference for the ${displayName} FLiNT SDK`,
       ...(slug.length > 0
         ? {
-            alternates: {
-              canonical: url,
-            },
-          }
+          alternates: {
+            canonical: url,
+          },
+        }
         : {}),
       openGraph: {
         ...parentOg,
@@ -172,17 +172,17 @@ export async function generateReferenceMetadata(
     }
   } else if (isCliReference) {
     return {
-      title: 'CLI Reference | Supabase Docs',
-      description: 'CLI reference for the Supabase CLI',
+      title: 'CLI Reference | FLiNT Docs',
+      description: 'CLI reference for the FLiNT CLI',
     }
   } else if (isApiReference) {
     return {
-      title: 'Management API Reference | Supabase Docs',
-      description: 'Management API reference for the Supabase API',
+      title: 'Management API Reference | FLiNT Docs',
+      description: 'Management API reference for the FLiNT API',
     }
   } else if (isSelfHostingReference) {
     return {
-      title: 'Self-Hosting | Supabase Docs',
+      title: 'Self-Hosting | FLiNT Docs',
     }
   } else {
     return {}

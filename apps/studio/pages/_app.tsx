@@ -107,7 +107,7 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
               >
                 <ProfileProvider>
                   <Head>
-                    <title>Supabase</title>
+                    <title>FLiNT</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     {/* [Alaister]: This has to be an inline style tag here and not a separate component due to next/font */}
                     <style

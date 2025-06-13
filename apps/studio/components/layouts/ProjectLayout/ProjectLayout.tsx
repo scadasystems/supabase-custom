@@ -117,8 +117,8 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
     const isPaused = selectedProject?.status === PROJECT_STATUS.INACTIVE
     const showProductMenu = selectedProject
       ? selectedProject.status === PROJECT_STATUS.ACTIVE_HEALTHY ||
-        (selectedProject.status === PROJECT_STATUS.COMING_UP &&
-          router.pathname.includes('/project/[ref]/settings'))
+      (selectedProject.status === PROJECT_STATUS.COMING_UP &&
+        router.pathname.includes('/project/[ref]/settings'))
       : true
 
     const ignorePausedState =
@@ -156,16 +156,16 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
         <Head>
           <title>
             {title
-              ? `${title} | Supabase`
+              ? `${title} | FLiNT`
               : selectedTable
-                ? `${selectedTable} | ${projectName} | ${organizationName} | Supabase`
+                ? `${selectedTable} | ${projectName} | ${organizationName} | LulzM`
                 : projectName
-                  ? `${projectName} | ${organizationName} | Supabase`
+                  ? `${projectName} | ${organizationName} | LulzM`
                   : organizationName
-                    ? `${organizationName} | Supabase`
-                    : 'Supabase'}
+                    ? `${organizationName} | FLiNT`
+                    : 'FLiNT'}
           </title>
-          <meta name="description" content="Supabase Studio" />
+          <meta name="description" content="FLiNT Studio" />
         </Head>
         <div className="flex flex-row h-full w-full">
           <ResizablePanelGroup direction="horizontal" autoSaveId="project-layout">

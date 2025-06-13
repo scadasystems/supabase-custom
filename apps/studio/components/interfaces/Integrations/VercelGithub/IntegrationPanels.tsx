@@ -30,7 +30,6 @@ const HandleIcon = ({ type, className }: { type: HandleIconType; className?: str
   switch (type) {
     case 'GitHub':
       return <Github strokeWidth={ICON_STROKE_WIDTH} size={ICON_SIZE} />
-      break
     // case 'Netlify':
     //   return <Square strokeWidth={ICON_STROKE_WIDTH} size={ICON_SIZE} />
     //   break
@@ -46,14 +45,11 @@ const HandleIcon = ({ type, className }: { type: HandleIconType; className?: str
         </svg>
       )
 
-      break
     case 'Supabase':
-      return <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="Supabase" className="w-3.5"></img>
-      break
+      return <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="FLiNT" className="w-3.5"></img>
 
     default:
       return <></>
-      break
   }
 }
 
@@ -351,5 +347,6 @@ export {
   IntegrationConnection,
   IntegrationConnectionHeader,
   IntegrationConnectionOption,
-  IntegrationInstallation,
+  IntegrationInstallation
 }
+

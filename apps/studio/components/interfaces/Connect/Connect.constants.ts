@@ -18,22 +18,22 @@ export const DATABASE_CONNECTION_TYPES: {
   lang: CodeBlockLang
   fileTitle: string | undefined
 }[] = [
-  { id: 'uri', label: 'URI', contentType: 'input', lang: 'bash', fileTitle: undefined },
-  { id: 'psql', label: 'PSQL', contentType: 'code', lang: 'bash', fileTitle: undefined },
-  { id: 'golang', label: 'Golang', contentType: 'code', lang: 'go', fileTitle: '.env' },
-  { id: 'jdbc', label: 'JDBC', contentType: 'input', lang: 'bash', fileTitle: undefined },
-  {
-    id: 'dotnet',
-    label: '.NET',
-    contentType: 'code',
-    lang: 'csharp',
-    fileTitle: 'appsettings.json',
-  },
-  { id: 'nodejs', label: 'Node.js', contentType: 'code', lang: 'js', fileTitle: '.env' },
-  { id: 'php', label: 'PHP', contentType: 'code', lang: 'php', fileTitle: '.env' },
-  { id: 'python', label: 'Python', contentType: 'code', lang: 'python', fileTitle: '.env' },
-  { id: 'sqlalchemy', label: 'SQLAlchemy', contentType: 'code', lang: 'python', fileTitle: '.env' },
-]
+    { id: 'uri', label: 'URI', contentType: 'input', lang: 'bash', fileTitle: undefined },
+    { id: 'psql', label: 'PSQL', contentType: 'code', lang: 'bash', fileTitle: undefined },
+    { id: 'golang', label: 'Golang', contentType: 'code', lang: 'go', fileTitle: '.env' },
+    { id: 'jdbc', label: 'JDBC', contentType: 'input', lang: 'bash', fileTitle: undefined },
+    {
+      id: 'dotnet',
+      label: '.NET',
+      contentType: 'code',
+      lang: 'csharp',
+      fileTitle: 'appsettings.json',
+    },
+    { id: 'nodejs', label: 'Node.js', contentType: 'code', lang: 'js', fileTitle: '.env' },
+    { id: 'php', label: 'PHP', contentType: 'code', lang: 'php', fileTitle: '.env' },
+    { id: 'python', label: 'Python', contentType: 'code', lang: 'python', fileTitle: '.env' },
+    { id: 'sqlalchemy', label: 'SQLAlchemy', contentType: 'code', lang: 'python', fileTitle: '.env' },
+  ]
 
 export const CONNECTION_PARAMETERS = {
   host: {
@@ -71,7 +71,7 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'nextjs',
     label: 'Next.js',
     icon: 'nextjs',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/nextjs',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'app',
@@ -80,7 +80,7 @@ export const FRAMEWORKS: ConnectionType[] = [
         children: [
           {
             key: 'supabasejs',
-            label: 'supabase-js',
+            label: 'Flint-js',
             icon: 'supabase',
             children: [],
           },
@@ -93,7 +93,7 @@ export const FRAMEWORKS: ConnectionType[] = [
         children: [
           {
             key: 'supabasejs',
-            label: 'Supabase-js',
+            label: 'Flint-js',
             children: [],
             icon: 'supabase',
           },
@@ -106,11 +106,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     label: 'Remix',
     icon: 'remix',
     guideLink:
-      'https://supabase.com/docs/guides/auth/server-side/creating-a-client?framework=remix&environment=remix-loader',
+      'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -120,7 +120,7 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'react',
     label: 'React',
     icon: 'react',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/reactjs',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'create-react-app',
@@ -129,7 +129,7 @@ export const FRAMEWORKS: ConnectionType[] = [
         children: [
           {
             key: 'supabasejs',
-            label: 'supabase-js',
+            label: 'Flint-js',
             icon: 'supabase',
             children: [],
           },
@@ -142,7 +142,7 @@ export const FRAMEWORKS: ConnectionType[] = [
         children: [
           {
             key: 'supabasejs',
-            label: 'Supabase-js',
+            label: 'Flint-js',
             children: [],
             icon: 'supabase',
           },
@@ -154,11 +154,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'nuxt',
     label: 'Nuxt',
     icon: 'nuxt',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/nuxtjs',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -168,11 +168,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'vuejs',
     label: 'Vue.JS',
     icon: 'vuejs',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/vue',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -183,11 +183,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'sveltekit',
     label: 'SvelteKit',
     icon: 'sveltekit',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/sveltekit',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -197,11 +197,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'solidjs',
     label: 'Solid.js',
     icon: 'solidjs',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/solidjs',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -211,11 +211,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'astro',
     label: 'Astro',
     icon: 'astro',
-    guideLink: 'https://docs.astro.build/en/guides/backend/supabase/',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -225,11 +225,11 @@ export const FRAMEWORKS: ConnectionType[] = [
     key: 'refine',
     label: 'refine',
     icon: 'refine',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/quickstarts/refine',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -242,11 +242,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'exporeactnative',
     label: 'Expo React Native',
     icon: 'expo',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -256,11 +256,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'flutter',
     label: 'Flutter',
     icon: 'flutter',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-flutter',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabaseflutter',
-        label: 'supabase-flutter',
+        label: 'flint-flutter',
         children: [],
         icon: 'supabase',
       },
@@ -270,11 +270,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'ionicreact',
     label: 'Ionic React',
     icon: 'react',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-ionic-react',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -284,11 +284,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'swift',
     label: 'Swift',
     icon: 'swift',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-swift',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabaseswift',
-        label: 'supabase-swift',
+        label: 'flint-swift',
         children: [],
         icon: 'supabase',
       },
@@ -298,11 +298,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'androidkotlin',
     label: 'Android Kotlin',
     icon: 'kotlin',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-kotlin',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasekt',
-        label: 'supabase-kt',
+        label: 'flint-kt',
         children: [],
         icon: 'supabase',
       },
@@ -312,11 +312,11 @@ export const MOBILES: ConnectionType[] = [
     key: 'ionicangular',
     label: 'Ionic Angular',
     icon: 'ionic-angular',
-    guideLink: 'https://supabase.com/docs/guides/getting-started/tutorials/with-ionic-angular',
+    guideLink: 'https://github.com/scadasystems',
     children: [
       {
         key: 'supabasejs',
-        label: 'Supabase-js',
+        label: 'Flint-js',
         children: [],
         icon: 'supabase',
       },
@@ -329,7 +329,7 @@ export const ORMS: ConnectionType[] = [
     key: 'prisma',
     label: 'Prisma',
     icon: 'prisma',
-    guideLink: 'https://supabase.com/partners/integrations/prisma',
+    guideLink: 'https://github.com/scadasystems',
     children: [],
   },
   {
@@ -337,7 +337,7 @@ export const ORMS: ConnectionType[] = [
     label: 'Drizzle',
     icon: 'drizzle',
     guideLink:
-      'https://supabase.com/docs/guides/database/connecting-to-postgres#connecting-with-drizzle',
+      'https://github.com/scadasystems',
     children: [],
   },
 ]

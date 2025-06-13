@@ -86,7 +86,7 @@ export const ProjectClaimConfirm = ({
             <div className="w-8 h-8">
               <Image
                 src={`${BASE_PATH}/img/supabase-logo.svg`}
-                alt="Supabase Logo"
+                alt="FLiNT Logo"
                 className="w-full h-full"
                 width={100}
                 height={100}

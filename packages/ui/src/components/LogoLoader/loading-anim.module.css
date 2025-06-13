@@ -1,4 +1,4 @@
-.loading path {
+/* .loading path {
   stroke-dasharray: 30 220;
   animation: dash 1.15s cubic-bezier(0.39, 0.29, 0.5, 0.59) infinite both;
 }
@@ -9,5 +9,20 @@
   }
   to {
     stroke-dashoffset: 280;
+  }
+} */
+
+
+.loading path {
+  stroke-dasharray: 50 50;
+  animation: dash 1.15s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 200;
   }
 }

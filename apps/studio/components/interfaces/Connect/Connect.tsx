@@ -18,6 +18,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -289,6 +290,12 @@ export const Connect = () => {
             )
           })}
         </Tabs_Shadcn_>
+
+        <DialogFooter className={cn('flex justify-between', DIALOG_PADDING_X)}>
+          <DialogDescription>
+            Created by LulzM
+          </DialogDescription>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

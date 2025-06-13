@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       (section) =>
         (section.type === 'markdown' || section.type === 'function') && section.slug === slug
     )
-  } catch {}
+  } catch { }
 
   if (!section) {
     notFound()
@@ -80,8 +80,8 @@ function htmlShell(
   return (
     '<!doctype html><html>' +
     '<head>' +
-    `<title>${title} | Supabase Docs</title>` +
-    `<meta name="description" content="Supabase API reference for ${libraryName}${section.title ? ': ' + section.title : ''}">` +
+    `<title>${title} | FLiNT Docs</title>` +
+    `<meta name="description" content="FLiNT API reference for ${libraryName}${section.title ? ': ' + section.title : ''}">` +
     `<meta name="og:image" content="https://supabase.com/docs/img/supabase-og-image.png">` +
     `<meta name="twitter:image" content="https://supabase.com/docs/img/supabase-og-image.png">` +
     `<link rel="canonical" href="https://supabase.com/docs/reference/${lib}` +

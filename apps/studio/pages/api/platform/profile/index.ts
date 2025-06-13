@@ -21,16 +21,16 @@ const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
   // Platform specific endpoint
   const response = {
     id: 1,
-    primary_email: 'johndoe@supabase.io',
-    username: 'johndoe',
-    first_name: 'John',
-    last_name: 'Doe',
+    primary_email: 'helpdesk@dicamo.com',
+    username: 'helpdesk',
+    first_name: 'Help',
+    last_name: 'Desk',
     organizations: [
       {
         id: 1,
         name: process.env.DEFAULT_ORGANIZATION_NAME || 'Default Organization',
         slug: 'default-org-slug',
-        billing_email: 'billing@supabase.co',
+        billing_email: 'tax@dicamo.com',
         projects: [{ ...DEFAULT_PROJECT, connectionString: '' }],
       },
     ],

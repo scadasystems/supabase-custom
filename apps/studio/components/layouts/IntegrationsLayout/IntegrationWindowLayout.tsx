@@ -4,8 +4,8 @@ import { LoadingLine, cn } from 'ui'
 
 import { withAuth } from 'hooks/misc/withAuth'
 import { BASE_PATH } from 'lib/constants'
-import { ScaffoldContainer } from '../Scaffold'
 import { Book, LifeBuoy, X } from 'lucide-react'
+import { ScaffoldContainer } from '../Scaffold'
 
 export type IntegrationWindowLayoutProps = {
   title: string
@@ -70,7 +70,7 @@ const Header = ({ title, integrationIcon }: HeaderProps) => {
         <div className="flex items-center gap-6 w-full">
           <div className="flex gap-2 items-center">
             <div className="bg-white shadow border rounded p-1 w-8 h-8 flex justify-center items-center">
-              <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="Supabase" className="w-4" />
+              <img src={`${BASE_PATH}/img/supabase-logo.svg`} alt="FLiNT" className="w-4" />
             </div>
             <X className="text-border-stronger" strokeWidth={2} size={16} />
             {integrationIcon}

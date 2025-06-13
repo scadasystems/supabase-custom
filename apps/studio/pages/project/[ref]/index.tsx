@@ -3,9 +3,8 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
 import { useParams } from 'common'
-import { ClientLibrary, ExampleProject, NewProjectPanel } from 'components/interfaces/Home'
+import { NewProjectPanel } from 'components/interfaces/Home'
 import { AdvisorWidget } from 'components/interfaces/Home/AdvisorWidget'
-import { CLIENT_LIBRARIES, EXAMPLE_PROJECTS } from 'components/interfaces/Home/Home.constants'
 import { ProjectUsageSection } from 'components/interfaces/Home/ProjectUsageSection'
 import { ServiceStatus } from 'components/interfaces/Home/ServiceStatus'
 import DefaultLayout from 'components/layouts/DefaultLayout'
@@ -25,13 +24,9 @@ import type { NextPageWithLayout } from 'types'
 import {
   Badge,
   cn,
-  Tabs_Shadcn_,
-  TabsContent_Shadcn_,
-  TabsList_Shadcn_,
-  TabsTrigger_Shadcn_,
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
+  TooltipTrigger
 } from 'ui'
 import ShimmeringLoader from 'ui-patterns/ShimmeringLoader'
 
@@ -57,7 +52,7 @@ const Home: NextPageWithLayout = () => {
   const projectName =
     project?.ref !== 'default' && project?.name !== undefined
       ? project?.name
-      : 'Welcome to your project'
+      : 'Welcome to FLiNT'
 
   const { data: tablesData, isLoading: isLoadingTables } = useTablesQuery({
     projectRef: project?.ref,
@@ -184,7 +179,13 @@ const Home: NextPageWithLayout = () => {
             </div>
           </div>
 
-          <div className="bg-surface-100/5 py-16">
+          <footer className="fixed bottom-0 left-0 w-full py-4 border-t border-gray-200">
+            <div className="container mx-auto text-center">
+              <p className="text-sm text-gray-700">Created by LulzM</p>
+            </div>
+          </footer>
+
+          {/* <div className="bg-surface-100/5 py-16">
             <div className="mx-auto max-w-7xl space-y-16">
               {project?.status !== PROJECT_STATUS.INACTIVE && (
                 <>
@@ -230,7 +231,7 @@ const Home: NextPageWithLayout = () => {
                 </>
               )}
             </div>
-          </div>
+          </div> */}
         </>
       )}
     </div>

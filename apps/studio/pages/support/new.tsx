@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import SVG from 'react-inlinesvg'
 
+import { AIAssistantOption } from 'components/interfaces/Support/AIAssistantOption'
 import Success from 'components/interfaces/Support/Success'
 import { SupportFormV2 } from 'components/interfaces/Support/SupportFormV2'
 import AppLayout from 'components/layouts/AppLayout/AppLayout'
@@ -16,7 +17,6 @@ import { BASE_PATH } from 'lib/constants'
 import { toast } from 'sonner'
 import { NextPageWithLayout } from 'types'
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from 'ui'
-import { AIAssistantOption } from 'components/interfaces/Support/AIAssistantOption'
 
 const SupportPage: NextPageWithLayout = () => {
   const [sentCategory, setSentCategory] = useState<string>()
@@ -36,7 +36,7 @@ const SupportPage: NextPageWithLayout = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-2">
             <div className="flex items-center space-x-3">
               <SVG src={`${BASE_PATH}/img/supabase-logo.svg`} className="h-4 w-4" />
-              <h1 className="m-0 text-lg">Supabase support</h1>
+              <h1 className="m-0 text-lg">FLiNT support</h1>
             </div>
 
             <div className="flex items-center gap-x-3">
@@ -109,10 +109,10 @@ const SupportPage: NextPageWithLayout = () => {
                 <p className="flex items-center gap-x-1">
                   Email us directly at{' '}
                   <Link
-                    href="mailto:support@supabase.com"
+                    href="mailto:helpdesk@dicamo.com"
                     className="p-1 font-mono rounded-md  text-foreground"
                   >
-                    support@supabase.com
+                    helpdesk@dicamo.com
                   </Link>
                   <CopyButton
                     type="text"
