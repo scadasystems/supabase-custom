@@ -96,7 +96,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
     const aiSnap = useAiAssistantStateSnapshot()
 
     const { appTitle } = useCustomContent(['app:title'])
-    const titleSuffix = appTitle || 'Supabase'
+    const titleSuffix = appTitle || 'LulzM'
 
     useHotKey(() => aiSnap.toggleAssistant(), 'i', [aiSnap])
 
@@ -110,9 +110,9 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
     const isPaused = selectedProject?.status === PROJECT_STATUS.INACTIVE
     const showProductMenu = selectedProject
       ? selectedProject.status === PROJECT_STATUS.ACTIVE_HEALTHY ||
-        (selectedProject.status === PROJECT_STATUS.COMING_UP &&
-          router.pathname.includes('/project/[ref]/settings')) ||
-        router.pathname.includes('/project/[ref]/branches')
+      (selectedProject.status === PROJECT_STATUS.COMING_UP &&
+        router.pathname.includes('/project/[ref]/settings')) ||
+      router.pathname.includes('/project/[ref]/branches')
       : true
 
     const ignorePausedState =
