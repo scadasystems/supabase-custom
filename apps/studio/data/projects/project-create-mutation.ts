@@ -19,11 +19,15 @@ const WHITELIST_ERRORS = [
   'already exists in your organization.',
 ]
 
+type CreateProjectBody = components['schemas']['CreateProjectBody']
+type CloudProvider = CreateProjectBody['cloud_provider']
+
 export type ProjectCreateVariables = {
   name: string
-  organizationId: number
+  organizationSlug: string
   dbPass: string
-  dbRegion: string
+  dbRegion?: string
+  regionSelection?: CreateProjectBody['region_selection']
   dbSql?: string
   dbPricingTierId?: string
   cloudProvider?: string
@@ -38,9 +42,10 @@ export type ProjectCreateVariables = {
 
 export async function createProject({
   name,
-  organizationId,
+  organizationSlug,
   dbPass,
   dbRegion,
+  regionSelection,
   dbSql,
   cloudProvider = PROVIDERS.AWS.id,
   authSiteUrl,
@@ -51,12 +56,13 @@ export async function createProject({
   postgresEngine,
   releaseChannel,
 }: ProjectCreateVariables) {
-  const body: components['schemas']['CreateProjectBody'] = {
-    cloud_provider: cloudProvider,
-    org_id: organizationId,
+  const body: CreateProjectBody = {
+    cloud_provider: cloudProvider as CloudProvider,
+    organization_slug: organizationSlug,
     name,
     db_pass: dbPass,
     db_region: dbRegion,
+    region_selection: regionSelection,
     db_sql: dbSql,
     auth_site_url: authSiteUrl,
     ...(customSupabaseRequest !== undefined && {
@@ -93,8 +99,11 @@ export const useProjectCreateMutation = ({
     (vars) => createProject(vars),
     {
       async onSuccess(data, variables, context) {
-        await queryClient.invalidateQueries(projectKeys.list()),
-          await onSuccess?.(data, variables, context)
+        await Promise.all([
+          queryClient.invalidateQueries(projectKeys.list()),
+          queryClient.invalidateQueries(projectKeys.infiniteListByOrg(variables.organizationSlug)),
+        ])
+        await onSuccess?.(data, variables, context)
       },
       async onError(data, variables, context) {
         if (onError === undefined) {

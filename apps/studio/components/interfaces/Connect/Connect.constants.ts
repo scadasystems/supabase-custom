@@ -1,3 +1,4 @@
+import { DOCS_URL } from 'lib/constants'
 import { CodeBlockLang } from 'ui'
 
 export type DatabaseConnectionType =
@@ -64,6 +65,10 @@ export type ConnectionType = {
   label: string
   guideLink?: string
   children: ConnectionType[]
+  files?: {
+    name: string
+    content: string
+  }[]
 }
 
 export const FRAMEWORKS: ConnectionType[] = [
@@ -347,6 +352,7 @@ export const CONNECTION_TYPES = [
   { key: 'frameworks', label: 'App Frameworks', obj: FRAMEWORKS },
   { key: 'mobiles', label: 'Mobile Frameworks', obj: MOBILES },
   { key: 'orms', label: 'ORMs', obj: ORMS },
+  { key: 'mcp', label: 'MCP', obj: [] },
 ]
 
 export const PGBOUNCER_ENABLED_BUT_NO_IPV4_ADDON_TEXT =
