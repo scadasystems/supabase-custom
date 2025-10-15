@@ -1,9 +1,9 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { LOCAL_STORAGE_KEYS } from 'common'
 import { useOrganizationsQuery } from 'data/organizations/organizations-query'
+import { useIsFeatureEnabled } from 'hooks/misc/useIsFeatureEnabled'
 import { useLocalStorageQuery } from 'hooks/misc/useLocalStorage'
 import { useSelectedOrganizationQuery } from 'hooks/misc/useSelectedOrganization'
 import { IS_PLATFORM } from 'lib/constants'
@@ -11,6 +11,8 @@ import { IS_PLATFORM } from 'lib/constants'
 export const HomeIcon = () => {
   const { data: selectedOrganization } = useSelectedOrganizationQuery()
   const { data: organizations } = useOrganizationsQuery()
+
+  const largeLogo = useIsFeatureEnabled('branding:large_logo')
 
   const router = useRouter()
   const [lastVisitedOrganization] = useLocalStorageQuery(
@@ -29,7 +31,7 @@ export const HomeIcon = () => {
 
   return (
     <Link href={href} className="items-center justify-center flex-shrink-0 hidden md:flex">
-      <Image
+      <img
         alt="FLiNT"
         src={`${router.basePath}/img/supabase-logo.svg?v=3`}
         width={18}

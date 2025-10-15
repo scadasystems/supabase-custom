@@ -13,10 +13,13 @@ import { cache_fullProcess_withDevCacheBust, existsFile } from '~/features/helpe
 import type { OrPromise } from '~/features/helpers.types'
 import { generateOpenGraphImageMeta } from '~/features/seo/openGraph'
 import { BASE_PATH } from '~/lib/constants'
+import { getCustomContent } from '~/lib/custom-content/getCustomContent'
 import { GUIDES_DIRECTORY, isValidGuideFrontmatter, type GuideFrontmatter } from '~/lib/docs'
 import { GuideModelLoader } from '~/resources/guide/guideModelLoader'
 import { newEditLink } from './GuidesMdx.template'
 import { checkGuidePageEnabled } from './NavigationPageStatus.utils'
+
+const { metadataTitle } = getCustomContent(['metadata:title'])
 
 const PUBLISHED_SECTIONS = [
   'ai',
@@ -170,7 +173,7 @@ const genGuideMeta =
       const ogType = pathname.split('/')[2]
 
       return {
-        title: `${meta.title} | FLiNT Docs`,
+        title: `${meta.title} | ${metadataTitle || 'FLiNT'}`,
         description: meta.description || meta.subtitle,
         // @ts-ignore
         alternates: {
@@ -188,6 +191,7 @@ const genGuideMeta =
         },
       }
     }
+
 
 function removeRedundantH1(content: string) {
   const mdxTree = fromMarkdown(content, 'utf-8', {
