@@ -1,4 +1,4 @@
-import { Code, Github, Lock, Play, Server, Terminal } from 'lucide-react'
+import { Code, Github, Lock, Server, Terminal } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
@@ -11,7 +11,6 @@ import { ResourceList } from 'components/ui/Resource/ResourceList'
 import { useSendEventMutation } from 'data/telemetry/send-event-mutation'
 import { useIsFeatureEnabled } from 'hooks/misc/useIsFeatureEnabled'
 import { useSelectedOrganizationQuery } from 'hooks/misc/useSelectedOrganization'
-import { DOCS_URL } from 'lib/constants'
 import { useAiAssistantStateSnapshot } from 'state/ai-assistant-state'
 import {
   AiIconAnimation,
@@ -20,16 +19,10 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  cn,
-  CodeBlock,
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogSection,
-  DialogTitle,
-  DialogTrigger,
-  Separator,
+  DialogTrigger
 } from 'ui'
 import { EDGE_FUNCTION_TEMPLATES } from './Functions.templates'
 import { TerminalInstructions } from './TerminalInstructions'
@@ -207,6 +200,7 @@ export const FunctionsEmptyStateLocal = () => {
   return (
     <>
       <div className="flex flex-col gap-y-4">
+        {/*         
         <Card>
           <CardHeader>
             <CardTitle>Developing Edge Functions locally</CardTitle>
@@ -234,7 +228,7 @@ export const FunctionsEmptyStateLocal = () => {
                   className={cn(
                     'px-3.5 max-w-full prose dark:prose-dark [&>code]:m-0 2xl:min-h-28'
                   )}
-                  value="supabase functions new hello-world"
+                  value="flint functions new hello-world"
                 />
               </div>
               <DocsButton
@@ -258,8 +252,8 @@ export const FunctionsEmptyStateLocal = () => {
                     'px-3.5 max-w-full prose dark:prose-dark [&>code]:m-0 2xl:min-h-28'
                   )}
                   value={`
-supabase start # start the supabase stack
-supabase functions serve # start the Functions watcher`.trim()}
+flint start # start the flint stack
+flint functions serve # start the Functions watcher`.trim()}
                 />
               </div>
               <DocsButton
@@ -285,7 +279,7 @@ supabase functions serve # start the Functions watcher`.trim()}
                   )}
                   value={`
 curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
-  --header 'Authorization: Bearer SUPABASE_ANON_KEY' \\
+  --header 'Authorization: Bearer FLINT_ANON_KEY' \\
   --header 'Content-Type: application/json' \\
   --data '{ "name":"Functions" }'`.trim()}
                 />
@@ -295,7 +289,9 @@ curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
               />
             </div>
           </CardContent>
-        </Card>
+        </Card> 
+        */}
+
 
         <Card>
           <CardHeader>
@@ -308,20 +304,21 @@ curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
                 <h4 className="text-base text-foreground">Self-hosting Edge Functions</h4>
               </div>
               <p className="text-sm text-foreground-light mt-1 mb-4 max-w-3xl">
-                Supabase Edge Runtime consists of a web server based on the Deno runtime, capable of
+                FLiNT Edge Runtime consists of a web server based on the Deno runtime, capable of
                 running Javascript, Typescript, and WASM services. You may self-host edge functions
                 on providers like Fly.io, Digital Ocean, or AWS.
               </p>
               <div className="flex items-center gap-x-2">
-                <DocsButton href={`${DOCS_URL}/reference/self-hosting-functions/introduction`} />
+                <DocsButton href={`https://github.com/scadasystems`} />
                 <Button asChild type="default" icon={<Github />}>
-                  <a href="https://github.com/supabase/edge-runtime/">GitHub</a>
+                  <a href="https://github.com/scadasystems" target="_blank">GitHub</a>
                 </Button>
               </div>
             </div>
           </CardContent>
         </Card>
 
+        {/*         
         <ScaffoldSectionTitle className="text-xl mt-12">Explore our templates</ScaffoldSectionTitle>
         <ResourceList>
           {templates.map((template) => (
@@ -356,7 +353,9 @@ curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
               </DialogContent>
             </Dialog>
           ))}
-        </ResourceList>
+        </ResourceList> 
+        */}
+
       </div>
     </>
   )
@@ -381,16 +380,16 @@ export const FunctionsSecretsEmptyStateLocal = () => {
             </p>
             <ul className="list-disc pl-6">
               <li className="prose [&>code]:text-xs text-sm max-w-full">
-                Through an <code>.env</code> file placed at <code>supabase/functions/.env</code>,
-                which is automatically loaded on <code>supabase start</code>
+                Through an <code>.env</code> file placed at <code>flint/functions/.env</code>,
+                which is automatically loaded on <code>flint start</code>
               </li>
               <li className="prose [&>code]:text-xs text-sm max-w-full">
-                Through the <code>--env-file</code> option for <code>supabase functions serve</code>
-                , for example: <code>supabase functions serve --env-file ./path/to/.env-file</code>
+                Through the <code>--env-file</code> option for <code>flint functions serve</code>
+                , for example: <code>flint functions serve --env-file ./path/to/.env-file</code>
               </li>
             </ul>
           </div>
-          <DocsButton href={`${DOCS_URL}/guides/functions/secrets#using-the-cli`} />
+          <DocsButton href={`https://github.com/scadasystems`} />
         </div>
       </CardContent>
     </Card>

@@ -3,10 +3,7 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
 import { useParams } from 'common'
-import { ClientLibrary } from 'components/interfaces/Home'
 import { AdvisorWidget } from 'components/interfaces/Home/AdvisorWidget'
-import { ExampleProject } from 'components/interfaces/Home/ExampleProject'
-import { EXAMPLE_PROJECTS } from 'components/interfaces/Home/Home.constants'
 import { NewProjectPanel } from 'components/interfaces/Home/NewProjectPanel/NewProjectPanel'
 import { ProjectUsageSection } from 'components/interfaces/Home/ProjectUsageSection'
 import { ServiceStatus } from 'components/interfaces/Home/ServiceStatus'
@@ -28,13 +25,9 @@ import { useAppStateSnapshot } from 'state/app-state'
 import {
   Badge,
   cn,
-  Tabs_Shadcn_,
-  TabsContent_Shadcn_,
-  TabsList_Shadcn_,
-  TabsTrigger_Shadcn_,
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
+  TooltipTrigger
 } from 'ui'
 import ShimmeringLoader from 'ui-patterns/ShimmeringLoader'
 
@@ -217,7 +210,7 @@ export const Home = () => {
             </div>
           </div>
 
-          <div className="bg-surface-100/5 py-16">
+          {/* <div className="bg-surface-100/5 py-16">
             <div className="mx-auto max-w-7xl space-y-16">
               {project?.status !== PROJECT_STATUS.INACTIVE && (
                 <>
@@ -235,7 +228,6 @@ export const Home = () => {
                       <h4 className="text-lg">Example projects</h4>
                       {!!projectHomepageExampleProjects ? (
                         <div className="grid gap-2 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
-                          {/* [Alaister]: Looks like the useCustomContent has wonky types. I'll look at a fix later. */}
                           {(projectHomepageExampleProjects as any)
                             .sort((a: any, b: any) => a.title.localeCompare(b.title))
                             .map((project: any) => (
@@ -277,7 +269,8 @@ export const Home = () => {
                 </>
               )}
             </div>
-          </div>
+          </div> */}
+
         </>
       )}
     </div>

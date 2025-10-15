@@ -2,9 +2,6 @@ import { ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
 import { useParams } from 'common'
-import ClientLibrary from 'components/interfaces/Home/ClientLibrary'
-import { ExampleProject } from 'components/interfaces/Home/ExampleProject'
-import { EXAMPLE_PROJECTS } from 'components/interfaces/Home/Home.constants'
 import { DisplayApiSettings, DisplayConfigSettings } from 'components/ui/ProjectSettings'
 import { useInvalidateProjectsInfiniteQuery } from 'data/projects/org-projects-infinite-query'
 import { useInvalidateProjectDetailsQuery } from 'data/projects/project-detail-query'
@@ -127,7 +124,7 @@ const BuildingState = () => {
           </div>
         </div>
       </div>
-      {project.status === PROJECT_STATUS.COMING_UP && (
+      {/* {project.status === PROJECT_STATUS.COMING_UP && (
         <div className="mx-auto my-16 w-full max-w-7xl space-y-16">
           <div className="space-y-8">
             <div className="mx-6">
@@ -152,7 +149,7 @@ const BuildingState = () => {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
   )
 }

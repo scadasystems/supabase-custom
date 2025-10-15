@@ -589,14 +589,13 @@ export const DOCS_RESOURCE_CONTENT: {
       let bashParams = noParams ? '' : `\n-d '{ ${rpcList} }' \\`
       let jsParams = noParams
         ? ''
-        : `, {${
-            rpcParams.length
-              ? rpcParams
-                  .map((x) => `\n    ${x.name}`)
-                  .join(`, `)
-                  .concat('\n  ')
-              : ''
-          }}`
+        : `, {${rpcParams.length
+          ? rpcParams
+            .map((x) => `\n    ${x.name}`)
+            .join(`, `)
+            .concat('\n  ')
+          : ''
+        }}`
       return [
         {
           key: 'rpc-single',
@@ -604,12 +603,11 @@ export const DOCS_RESOURCE_CONTENT: {
           bash: `
   curl -X POST '${endpoint}/rest/v1/rpc/${rpcName}' \\${bashParams}
   -H "Content-Type: application/json" \\
-  -H "apikey: ${apiKey}" ${
-    showBearer
-      ? `\\
+  -H "apikey: ${apiKey}" ${showBearer
+              ? `\\
   -H "Authorization: Bearer ${apiKey}"`
-      : ''
-  }
+              : ''
+            }
         `,
           js: `
 let { data, error } = await supabase
