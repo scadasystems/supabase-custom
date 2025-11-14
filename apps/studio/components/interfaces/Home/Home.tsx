@@ -91,6 +91,14 @@ export const Home = () => {
   // [Joshen] JFYI minus 1 as the replicas endpoint returns the primary DB minimally
   const replicasCount = Math.max(0, (replicasData?.length ?? 1) - 1)
 
+  if (isPaused) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <ProjectPausedState />
+      </div>
+    )
+  }
+
   return (
     <div className="w-full px-4">
       <div className={cn('py-16 ', !isPaused && 'border-b border-muted ')}>
@@ -126,12 +134,10 @@ export const Home = () => {
                 )}
                 {showInstanceSize && (
                   <ComputeBadgeWrapper
-                    project={{
-                      ref: project?.ref,
-                      organization_slug: organization?.slug,
-                      cloud_provider: project?.cloud_provider,
-                      infra_compute_size: project?.infra_compute_size,
-                    }}
+                    projectRef={project?.ref}
+                    slug={organization?.slug}
+                    cloudProvider={project?.cloud_provider}
+                    computeSize={project?.infra_compute_size}
                   />
                 )}
               </div>
@@ -195,20 +201,18 @@ export const Home = () => {
             </div>
           </div>
           <ProjectUpgradeFailedBanner />
-          {isPaused && <ProjectPausedState />}
         </div>
       </div>
 
-      {!isPaused && (
-        <>
-          <div className="py-16 border-b border-muted">
-            <div className="mx-auto max-w-7xl space-y-16">
-              {IS_PLATFORM && project?.status !== PROJECT_STATUS.INACTIVE && (
-                <>{isNewProject ? <NewProjectPanel /> : <ProjectUsageSection />}</>
-              )}
-              {!isNewProject && project?.status !== PROJECT_STATUS.INACTIVE && <AdvisorWidget />}
-            </div>
+      <>
+        <div className="py-16 border-b border-muted">
+          <div className="mx-auto max-w-7xl space-y-16 @container">
+            {IS_PLATFORM && project?.status !== PROJECT_STATUS.INACTIVE && (
+              <>{isNewProject ? <NewProjectPanel /> : <ProjectUsageSection />}</>
+            )}
+            {!isNewProject && project?.status !== PROJECT_STATUS.INACTIVE && <AdvisorWidget />}
           </div>
+        </div>
 
           {/* <div className="bg-surface-100/5 py-16">
             <div className="mx-auto max-w-7xl space-y-16">

@@ -87,7 +87,7 @@ const Header = ({ title, integrationIcon }: HeaderProps) => {
 const maxWidthClasses = 'mx-auto w-full max-w-[1600px]'
 const paddingClasses = 'px-6 lg:px-14 xl:px-28 2xl:px-32'
 
-const IntegrationScaffoldContainer = forwardRef<
+export const IntegrationScaffoldContainer = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
@@ -95,5 +95,3 @@ const IntegrationScaffoldContainer = forwardRef<
 })
 
 IntegrationScaffoldContainer.displayName = 'IntegrationScaffoldContainer'
-
-export { IntegrationScaffoldContainer }

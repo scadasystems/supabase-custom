@@ -109,7 +109,7 @@ const BuildingState = () => {
                           support ticket.
                         </p>
                         <Button asChild type="default">
-                          <Link href="/support/new">Contact support team</Link>
+                          <SupportLink>Contact support team</SupportLink>
                         </Button>
                       </>
                     }
