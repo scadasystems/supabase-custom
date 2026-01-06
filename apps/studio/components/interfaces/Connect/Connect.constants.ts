@@ -228,7 +228,7 @@ export const FRAMEWORKS: ConnectionType[] = [
   },
   {
     key: 'refine',
-    label: 'refine',
+    label: 'Refine',
     icon: 'refine',
     guideLink: 'https://github.com/scadasystems',
     children: [
