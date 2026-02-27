@@ -1,9 +1,3 @@
-import { Code, Github, Lock, Play, Server, Terminal } from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
-
 import { useParams } from 'common'
 import { SIDEBAR_KEYS } from 'components/layouts/ProjectLayout/LayoutSidebar/LayoutSidebarProvider'
 import { ScaffoldSectionTitle } from 'components/layouts/Scaffold'
@@ -27,7 +21,13 @@ import {
   DialogSection,
   DialogTrigger
 } from 'ui'
+
 import { EDGE_FUNCTION_TEMPLATES } from './Functions.templates'
+import { useRouter } from 'next/router'
+import { parseAsString, useQueryState } from 'nuqs'
+import { useMemo } from 'react'
+import { Code, Github, Link, Server, Terminal } from 'lucide-react'
+import { DOCS_URL } from '@/lib/constants'
 
 export const FunctionsEmptyState = () => {
   const { ref } = useParams()
@@ -182,7 +182,7 @@ export const FunctionsEmptyState = () => {
   )
 }
 
-export const FunctionsEmptyStateLocal = () => {
+export const FunctionsInstructionsLocal = () => {
   const showStripeExample = useIsFeatureEnabled('edge_functions:show_stripe_example')
   const templates = useMemo(() => {
     if (showStripeExample) {
@@ -318,7 +318,7 @@ curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
         <ScaffoldSectionTitle className="text-xl mt-12">Explore our templates</ScaffoldSectionTitle>
         <ResourceList>
           {templates.map((template) => (
-            <Dialog>
+            <Dialog key={template.name}>
               <DialogTrigger asChild>
                 <ResourceItem
                   key={template.name}
@@ -359,16 +359,15 @@ curl --request POST 'http://localhost:54321/functions/v1/hello-world' \\
 
 export const FunctionsSecretsEmptyStateLocal = () => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Managing secrets and environment variables locally</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] divide-y md:divide-y-0 md:divide-x divide-default items-stretch">
-        <div className="p-8">
-          <div className="flex items-center gap-2">
-            <Lock size={20} />
-            <h4 className="text-base text-foreground">Managing secrets</h4>
+    <>
+      <Card>
+        <CardHeader className="flex-row items-center justify-between">
+          Local development & CLI
+          <div className="flex items-center gap-x-2">
+            <DocsButton href={`${DOCS_URL}/guides/functions/secrets#using-the-cli`} />
           </div>
+        </CardHeader>
+        <CardContent>
           <div className="text-sm text-foreground-light mt-1 mb-4 max-w-3xl">
             <p>
               Local secrets and environment variables can be loaded in either of the following two
@@ -386,8 +385,8 @@ export const FunctionsSecretsEmptyStateLocal = () => {
             </ul>
           </div>
           <DocsButton href={`https://github.com/scadasystems`} />
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card >
+    </>
   )
 }

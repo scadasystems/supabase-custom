@@ -128,19 +128,6 @@ export const FRAMEWORKS: ConnectionType[] = [
     guideLink: 'https://github.com/scadasystems',
     children: [
       {
-        key: 'create-react-app',
-        label: 'Create React App',
-        icon: 'react',
-        children: [
-          {
-            key: 'supabasejs',
-            label: 'Flint-js',
-            icon: 'supabase',
-            children: [],
-          },
-        ],
-      },
-      {
         key: 'vite',
         label: 'Vite',
         icon: 'vite',
@@ -148,8 +135,19 @@ export const FRAMEWORKS: ConnectionType[] = [
           {
             key: 'supabasejs',
             label: 'Flint-js',
-            children: [],
             icon: 'supabase',
+          },
+        ],
+      },
+      {
+        key: 'create-react-app',
+        label: 'Create React App',
+        icon: 'react',
+        children: [
+          {
+            key: 'supabasejs',
+            label: 'Flint-js',
+            children: [],
           },
         ],
       },
@@ -235,6 +233,34 @@ export const FRAMEWORKS: ConnectionType[] = [
       {
         key: 'supabasejs',
         label: 'Flint-js',
+        children: [],
+        icon: 'supabase',
+      },
+    ],
+  },
+  {
+    key: 'tanstack',
+    label: 'TanStack Start',
+    icon: 'tanstack',
+    guideLink: `${DOCS_URL}/guides/getting-started/quickstarts/tanstack`,
+    children: [
+      {
+        key: 'supabasejs',
+        label: 'Supabase-js',
+        children: [],
+        icon: 'supabase',
+      },
+    ],
+  },
+  {
+    key: 'flask',
+    label: 'Flask (Python)',
+    icon: 'python',
+    guideLink: `${DOCS_URL}/guides/getting-started/quickstarts/flask`,
+    children: [
+      {
+        key: 'supabasepy',
+        label: 'supabase-py',
         children: [],
         icon: 'supabase',
       },
@@ -352,6 +378,7 @@ export const CONNECTION_TYPES = [
   { key: 'frameworks', label: 'App Frameworks', obj: FRAMEWORKS },
   { key: 'mobiles', label: 'Mobile Frameworks', obj: MOBILES },
   { key: 'orms', label: 'ORMs', obj: ORMS },
+  { key: 'api-keys', label: 'API Keys', obj: [] },
   { key: 'mcp', label: 'MCP', obj: [] },
 ]
 

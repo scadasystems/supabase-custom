@@ -1,10 +1,11 @@
 import type { PostgresColumn, PostgresTable } from '@supabase/postgres-meta'
 import { useQueryClient } from '@tanstack/react-query'
-import { isEmpty, isUndefined, noop } from 'lodash'
-import { useState } from 'react'
-import { toast } from 'sonner'
-
 import { useParams } from 'common'
+import {
+  queueCellEditWithOptimisticUpdate,
+  queueRowAddWithOptimisticUpdate,
+} from 'components/grid/utils/queueOperationUtils'
+import { useIsQueueOperationsEnabled } from 'components/interfaces/App/FeaturePreview/FeaturePreviewContext'
 import { type GeneratedPolicy } from 'components/interfaces/Auth/Policies/Policies.utils'
 import { databasePoliciesKeys } from 'data/database-policies/keys'
 import { useDatabasePublicationCreateMutation } from 'data/database-publications/database-publications-create-mutation'
@@ -18,7 +19,7 @@ import { entityTypeKeys } from 'data/entity-types/keys'
 import { lintKeys } from 'data/lint/keys'
 import { privilegeKeys } from 'data/privileges/keys'
 import { tableEditorKeys } from 'data/table-editor/keys'
-import { isTableLike } from 'data/table-editor/table-editor-types'
+import { isTableLike, type Entity } from 'data/table-editor/table-editor-types'
 import { tableRowKeys } from 'data/table-rows/keys'
 import { useTableRowCreateMutation } from 'data/table-rows/table-row-create-mutation'
 import { useTableRowUpdateMutation } from 'data/table-rows/table-row-update-mutation'
@@ -32,14 +33,19 @@ import { useConfirmOnClose, type ConfirmOnCloseModalProps } from 'hooks/ui/useCo
 import { usePHFlag } from 'hooks/ui/useFlag'
 import { useUrlState } from 'hooks/ui/useUrlState'
 import { useTrack } from 'lib/telemetry/track'
+import { isEmpty, isUndefined, noop } from 'lodash'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { useGetImpersonatedRoleState } from 'state/role-impersonation-state'
-import { useTableEditorStateSnapshot } from 'state/table-editor'
+import { useTableEditorStateSnapshot, type TableEditorState } from 'state/table-editor'
 import { createTabId, useTabsStateSnapshot } from 'state/tabs'
 import type { Dictionary } from 'types'
 import { SonnerProgress } from 'ui'
 import { ConfirmationModal } from 'ui-patterns/Dialogs/ConfirmationModal'
+
 import { ColumnEditor } from './ColumnEditor/ColumnEditor'
 import type { ForeignKey } from './ForeignKeySelector/ForeignKeySelector.types'
+import { OperationQueueSidePanel } from './OperationQueueSidePanel/OperationQueueSidePanel'
 import { ForeignRowSelector } from './RowEditor/ForeignRowSelector/ForeignRowSelector'
 import { JsonEditor } from './RowEditor/JsonEditor'
 import { RowEditor } from './RowEditor/RowEditor'
@@ -51,14 +57,23 @@ import {
   createColumn,
   createTable,
   duplicateTable,
+  getRowFromSidePanel,
   insertRowsViaSpreadsheet,
   insertTableRows,
   updateColumn,
   updateTable,
 } from './SidePanelEditor.utils'
 import { SpreadsheetImport } from './SpreadsheetImport/SpreadsheetImport'
+import {
+  useTableApiAccessHandlerWithHistory,
+  type TableApiAccessParams,
+} from './TableEditor/ApiAccessToggle'
 import { TableEditor } from './TableEditor/TableEditor'
 import type { ImportContent } from './TableEditor/TableEditor.types'
+import { useTableApiAccessPrivilegesMutation } from '@/data/privileges/table-api-access-mutation'
+import { useDataApiGrantTogglesEnabled } from '@/hooks/misc/useDataApiGrantTogglesEnabled'
+import { type ApiPrivilegesByRole } from '@/lib/data-api-types'
+import type { DeepReadonly, Prettify } from '@/lib/type-helpers'
 
 export type SaveTableParams =
   | SaveTableParamsNew
@@ -89,6 +104,12 @@ type SaveTableParamsExisting = SaveTableParamsBase & {
 }
 
 type SaveTablePayloadBase = {
+  /**
+   * Comment to set on the table
+   *
+   * `null` removes existing comment
+   * `undefined` leaves comment unchanged
+   */
   comment?: string | null
 }
 
@@ -106,7 +127,7 @@ type SaveTablePayloadExisting = SaveTablePayloadBase & {
   rls_enabled?: boolean
 }
 
-type SaveTableConfiguration = {
+type SaveTableConfiguration = Prettify<{
   tableId?: number
   importContent?: ImportContent
   isRLSEnabled: boolean
@@ -114,6 +135,47 @@ type SaveTableConfiguration = {
   isDuplicateRows: boolean
   existingForeignKeyRelations: ForeignKeyConstraint[]
   primaryKey?: Constraint
+}>
+
+const DUMMY_TABLE_API_ACCESS_PARAMS: TableApiAccessParams = {
+  type: 'new',
+}
+
+const createTableApiAccessHandlerParams = ({
+  enabled,
+  snap,
+  selectedTable,
+}: {
+  enabled: boolean
+  snap: DeepReadonly<TableEditorState>
+  selectedTable?: PostgresTable
+}): TableApiAccessParams | undefined => {
+  if (!enabled) return undefined
+
+  const tableSidePanel = snap.sidePanel?.type === 'table' ? snap.sidePanel : undefined
+  if (!tableSidePanel) return undefined
+
+  if (tableSidePanel.mode === 'new') {
+    return {
+      type: 'new',
+    }
+  }
+
+  if (!selectedTable) return undefined
+
+  if (tableSidePanel.mode === 'duplicate') {
+    return {
+      type: 'duplicate',
+      templateSchemaName: selectedTable.schema,
+      templateTableName: selectedTable.name,
+    }
+  }
+
+  return {
+    type: 'edit',
+    schemaName: selectedTable.schema,
+    tableName: selectedTable.name,
+  }
 }
 
 export interface SidePanelEditorProps {
@@ -142,7 +204,10 @@ export const SidePanelEditor = ({
   const { data: project } = useSelectedProjectQuery()
   const { data: org } = useSelectedOrganizationQuery()
   const getImpersonatedRoleState = useGetImpersonatedRoleState()
+
+  const isApiGrantTogglesEnabled = useDataApiGrantTogglesEnabled()
   const generatePoliciesFlag = usePHFlag<string>('tableCreateGeneratePolicies')
+  const isQueueOperationsEnabled = useIsQueueOperationsEnabled()
 
   const [isEdited, setIsEdited] = useState<boolean>(false)
 
@@ -150,6 +215,19 @@ export const SidePanelEditor = ({
     projectRef: project?.ref,
     connectionString: project?.connectionString,
   })
+
+  const tableApiAccessParams = createTableApiAccessHandlerParams({
+    enabled: isApiGrantTogglesEnabled,
+    snap,
+    selectedTable,
+  })
+  const apiAccessToggleHandler = useTableApiAccessHandlerWithHistory(
+    // Dummy params used to appease TypeScript, actually gated by enabled flag
+    tableApiAccessParams ?? DUMMY_TABLE_API_ACCESS_PARAMS,
+    {
+      enabled: tableApiAccessParams !== undefined,
+    }
+  )
 
   const { confirmOnClose, modalProps: closeConfirmationModalProps } = useConfirmOnClose({
     checkIsDirty: () => isEdited,
@@ -179,13 +257,16 @@ export const SidePanelEditor = ({
   const { mutateAsync: updatePublication } = useDatabasePublicationUpdateMutation({
     onError: () => {},
   })
+  const { mutateAsync: updateApiPrivileges } = useTableApiAccessPrivilegesMutation({
+    onError: () => {}, // Errors handled inline
+  })
 
   const isDuplicating = snap.sidePanel?.type === 'table' && snap.sidePanel.mode === 'duplicate'
 
   const saveRow = async (
     payload: any,
     isNewRecord: boolean,
-    configuration: { identifiers: any; rowIdx: number },
+    configuration: { identifiers: any; rowIdx: number; createMore?: boolean },
     onComplete: (err?: any) => void
   ) => {
     if (!project || selectedTable === undefined) {
@@ -194,6 +275,25 @@ export const SidePanelEditor = ({
 
     let saveRowError: Error | undefined
     if (isNewRecord) {
+      // Queue the ADD_ROW operation if queue operations feature is enabled
+      if (isQueueOperationsEnabled && selectedTable.primary_keys.length > 0) {
+        queueRowAddWithOptimisticUpdate({
+          queryClient,
+          queueOperation: snap.queueOperation,
+          projectRef: project.ref,
+          tableId: selectedTable.id,
+          table: selectedTable as unknown as Entity,
+          rowData: payload,
+          enumArrayColumns,
+        })
+
+        // Close panel immediately without error
+        onComplete()
+        setIsEdited(false)
+        if (!configuration.createMore) snap.closeSidePanel()
+        return
+      }
+
       try {
         await createTableRows({
           projectRef: project.ref,
@@ -210,6 +310,49 @@ export const SidePanelEditor = ({
       const hasChanges = !isEmpty(payload)
       if (hasChanges) {
         if (selectedTable.primary_keys.length > 0) {
+          // Queue the operation if queue operations feature is enabled
+          if (isQueueOperationsEnabled) {
+            const changedColumn = Object.keys(payload)[0]
+            if (!changedColumn) {
+              saveRowError = new Error('No changed column')
+              toast.error('No changed column')
+              onComplete(saveRowError)
+              return
+            }
+
+            const row = getRowFromSidePanel(snap.sidePanel)
+
+            if (!row) {
+              saveRowError = new Error('No row found')
+              toast.error('No row found')
+              onComplete(saveRowError)
+              return
+            }
+
+            const oldValue = row[changedColumn]
+
+            queueCellEditWithOptimisticUpdate({
+              queryClient,
+              queueOperation: snap.queueOperation,
+              projectRef: project.ref,
+              tableId: selectedTable.id,
+              // Cast to Entity - the queue save mutation only uses id, name, schema
+              table: selectedTable as unknown as Entity,
+              row,
+              rowIdentifiers: configuration.identifiers,
+              columnName: changedColumn,
+              oldValue: oldValue,
+              newValue: payload[changedColumn],
+              enumArrayColumns,
+            })
+
+            // Close panel immediately without error
+            onComplete()
+            setIsEdited(false)
+            snap.closeSidePanel()
+            return
+          }
+
           try {
             await updateTableRow({
               projectRef: project.ref,
@@ -235,7 +378,7 @@ export const SidePanelEditor = ({
     onComplete(saveRowError)
     if (!saveRowError) {
       setIsEdited(false)
-      snap.closeSidePanel()
+      if (!configuration.createMore) snap.closeSidePanel()
     }
   }
 
@@ -301,6 +444,7 @@ export const SidePanelEditor = ({
       primaryKey?: Constraint
       foreignKeyRelations: ForeignKey[]
       existingForeignKeyRelations: ForeignKeyConstraint[]
+      createMore?: boolean
     },
     resolve: any
   ) => {
@@ -363,10 +507,10 @@ export const SidePanelEditor = ({
       })
 
       setIsEdited(false)
-      snap.closeSidePanel()
+      if (!configuration.createMore) snap.closeSidePanel()
     }
 
-    resolve()
+    resolve(response?.error)
   }
 
   /**
@@ -480,6 +624,26 @@ export const SidePanelEditor = ({
     }
   }
 
+  const updateTableApiAccess = async (
+    table: RetrieveTableResult,
+    privileges: DeepReadonly<ApiPrivilegesByRole>
+  ) => {
+    if (!project) return console.error('Project is required')
+
+    try {
+      await updateApiPrivileges({
+        projectRef: project.ref,
+        connectionString: project.connectionString ?? undefined,
+        relationId: table.id,
+        privileges,
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : undefined
+      const toastDetail = message ? `: ${message}` : ''
+      toast.error(`Failed to update API access privileges for ${table.name}${toastDetail}`)
+    }
+  }
+
   const saveTable = async ({
     action,
     payload,
@@ -491,6 +655,19 @@ export const SidePanelEditor = ({
   }: SaveTableParams) => {
     let toastId
     let saveTableError = false
+
+    if (isApiGrantTogglesEnabled && !apiAccessToggleHandler.isSuccess) {
+      if (apiAccessToggleHandler.isPending) {
+        toast.info(
+          'Cannot save table yet because Data API settings are still loading. Please try again in a moment.'
+        )
+      } else {
+        toast.error(
+          'Cannot save table because there was an error loading Data API settings. Please refresh the page and try again.'
+        )
+      }
+      return
+    }
 
     const {
       importContent,
@@ -520,6 +697,15 @@ export const SidePanelEditor = ({
         })
 
         if (isRealtimeEnabled) await updateTableRealtime(table, true)
+
+        if (isApiGrantTogglesEnabled) {
+          const privilegesToSet = apiAccessToggleHandler.data?.schemaExposed
+            ? apiAccessToggleHandler.data.privileges
+            : undefined
+          if (privilegesToSet) {
+            await updateTableApiAccess(table, privilegesToSet)
+          }
+        }
 
         // Invalidate queries for table creation
         await Promise.all([
@@ -577,6 +763,15 @@ export const SidePanelEditor = ({
         })
         if (isRealtimeEnabled) await updateTableRealtime(table, isRealtimeEnabled)
 
+        if (isApiGrantTogglesEnabled) {
+          const privilegesToSet = apiAccessToggleHandler.data?.schemaExposed
+            ? apiAccessToggleHandler.data.privileges
+            : undefined
+          if (privilegesToSet) {
+            await updateTableApiAccess(table, privilegesToSet)
+          }
+        }
+
         await Promise.all([
           queryClient.invalidateQueries({
             queryKey: tableKeys.list(project?.ref, table.schema, includeColumns),
@@ -614,6 +809,14 @@ export const SidePanelEditor = ({
         }
         if (isTableLike(table)) {
           await updateTableRealtime(table, isRealtimeEnabled)
+          if (isApiGrantTogglesEnabled) {
+            const privilegesToSet = apiAccessToggleHandler.data?.schemaExposed
+              ? apiAccessToggleHandler.data.privileges
+              : undefined
+            if (privilegesToSet) {
+              await updateTableApiAccess(table, privilegesToSet)
+            }
+          }
         }
 
         if (hasError) {
@@ -761,6 +964,7 @@ export const SidePanelEditor = ({
         closePanel={onClosePanel}
         saveChanges={saveTable}
         updateEditorDirty={() => setIsEdited(true)}
+        apiAccessToggleHandler={apiAccessToggleHandler}
       />
       <SchemaEditor
         visible={snap.sidePanel?.type === 'schema'}
@@ -802,6 +1006,10 @@ export const SidePanelEditor = ({
         saveContent={onImportData}
         closePanel={onClosePanel}
         updateEditorDirty={setIsEdited}
+      />
+      <OperationQueueSidePanel
+        visible={snap.sidePanel?.type === 'operation-queue'}
+        closePanel={snap.closeSidePanel}
       />
       <CloseConfirmationModal {...closeConfirmationModalProps} />
     </>

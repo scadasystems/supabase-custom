@@ -1,9 +1,16 @@
 'use client'
 
 import React, { createContext, useCallback, useContext, useEffect, useRef } from 'react'
-import { ActiveInput, useFilterBarState, useOptionsCache } from './hooks'
-import { MenuItem } from './menuItems'
-import { FilterBarAction, FilterGroup, FilterOptionObject, FilterProperty } from './types'
+
+import { useFilterBarState, useOptionsCache } from './hooks'
+import {
+  ActiveInputState,
+  FilterBarAction,
+  FilterGroup,
+  FilterOptionObject,
+  FilterProperty,
+  MenuItem,
+} from './types'
 import { useCommandHandling } from './useCommandHandling'
 import { useKeyboardNavigation } from './useKeyboardNavigation'
 import {
@@ -19,15 +26,16 @@ export type FilterBarContextValue = {
   // Core state
   filters: FilterGroup
   filterProperties: FilterProperty[]
-  activeInput: ActiveInput
+  activeInput: ActiveInputState
   freeformText: string
   isLoading: boolean
   error: string | null
+  highlightedConditionPath: number[] | null
 
   // Handlers
   onFilterChange: (filters: FilterGroup) => void
   onFreeformTextChange: (text: string) => void
-  setActiveInput: (input: ActiveInput) => void
+  setActiveInput: (input: ActiveInputState) => void
   handleInputChange: (path: number[], value: string) => void
   handleOperatorChange: (path: number[], value: string) => void
   handleRemoveCondition: (path: number[]) => void
@@ -42,7 +50,10 @@ export type FilterBarContextValue = {
   handleLogicalOperatorChange: (path: number[]) => void
 
   // Options cache
-  propertyOptionsCache: Record<string, { options: (string | FilterOptionObject)[]; searchValue: string }>
+  propertyOptionsCache: Record<
+    string,
+    { options: (string | FilterOptionObject)[]; searchValue: string }
+  >
   loadingOptions: Record<string, boolean>
   loadPropertyOptions: (property: FilterProperty, search: string) => void
   optionsError: string | null
@@ -51,6 +62,7 @@ export type FilterBarContextValue = {
   supportsOperators: boolean
   variant: FilterBarVariant
   actions?: FilterBarAction[]
+  icon?: React.ReactNode
 
   // Refs
   rootRef: React.RefObject<HTMLDivElement>
@@ -77,6 +89,7 @@ export type FilterBarRootProps = {
   isLoading?: boolean
   supportsOperators?: boolean
   variant?: FilterBarVariant
+  icon?: React.ReactNode
 }
 
 export type FilterBarVariant = 'default' | 'pill'
@@ -92,6 +105,7 @@ export function FilterBarRoot({
   isLoading: externalLoading,
   supportsOperators = false,
   variant = 'default',
+  icon,
 }: FilterBarRootProps) {
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -103,6 +117,8 @@ export function FilterBarRoot({
     setActiveInput,
     newPathRef,
     setIsCommandMenuVisible,
+    highlightedConditionPath,
+    setHighlightedConditionPath,
   } = useFilterBarState()
 
   const { loadingOptions, propertyOptionsCache, loadPropertyOptions, optionsError } =
@@ -156,6 +172,8 @@ export function FilterBarRoot({
     setActiveInput,
     activeFilters: filters,
     onFilterChange,
+    highlightedConditionPath,
+    setHighlightedConditionPath,
   })
 
   const handleInputFocus = useCallback(
@@ -222,14 +240,20 @@ export function FilterBarRoot({
       }
       setIsCommandMenuVisible(false)
       setActiveInput(null)
+      // Clear highlight when clicking outside
+      setHighlightedConditionPath(null)
     }, 0)
-  }, [setIsCommandMenuVisible, setActiveInput, hideTimeoutRef])
+  }, [setIsCommandMenuVisible, setActiveInput, hideTimeoutRef, setHighlightedConditionPath])
 
   const handleGroupFreeformChange = useCallback(
     (_path: number[], value: string) => {
+      // Clear highlight when user types
+      if (highlightedConditionPath) {
+        setHighlightedConditionPath(null)
+      }
       onFreeformTextChange(value)
     },
-    [onFreeformTextChange]
+    [onFreeformTextChange, highlightedConditionPath, setHighlightedConditionPath]
   )
 
   const handleLabelClick = useCallback(
@@ -275,6 +299,7 @@ export function FilterBarRoot({
     freeformText,
     isLoading: loading,
     error,
+    highlightedConditionPath,
 
     // Handlers
     onFilterChange,
@@ -303,6 +328,7 @@ export function FilterBarRoot({
     supportsOperators,
     variant,
     actions,
+    icon,
 
     // Refs
     rootRef,
