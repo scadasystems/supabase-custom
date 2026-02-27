@@ -214,7 +214,7 @@ export const Home = () => {
           </div>
         </div>
 
-          {/* <div className="bg-surface-100/5 py-16">
+        {/* <div className="bg-surface-100/5 py-16">
             <div className="mx-auto max-w-7xl space-y-16">
               {project?.status !== PROJECT_STATUS.INACTIVE && (
                 <>
@@ -275,8 +275,7 @@ export const Home = () => {
             </div>
           </div> */}
 
-        </>
-      )}
+      </>
     </div>
   )
-}
+} 
